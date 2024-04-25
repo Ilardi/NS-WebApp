@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recensione</title>
+</head>
+<body>
+    <h1>Lascia una recensione</h1>
+    <form id="reviewForm" action="/review" method="POST">
+        <label for="review">Scrivi la tua recensione:</label><br>
+        <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
+        <input type="submit" value="Invia">
+    </form>
+    <br>
+    <div> <!-- {reviewText} --> </div>
+</body>
+</html>

