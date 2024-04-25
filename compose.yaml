@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+
+  WebAppVulnerable:
+    image: ilardi/webappvulnerable
+    ports:
+      - "8080:8080"
+    networks:
+      - ns_network
+      
+  WebAppSafe:
+    image: ilardi/webappsafe
+    ports:
+      - "8081:8081"
+    networks:
+      - ns_network
+      
+  evil:
+    image: ilardi/evil
+    ports:
+      - "8082:8082"
+    networks:
+      - ns_network
+
+networks:
+  ns_network:
+
