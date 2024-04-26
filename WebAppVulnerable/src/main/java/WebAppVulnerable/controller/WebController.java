@@ -4,15 +4,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import WebAppVulnerable.entity.Account;
+import WebAppVulnerable.repository.AccountRepository;
+
 @RestController
 public class WebController {
 
+    @Autowired
+    private AccountRepository accountRepository;
+	
 	@GetMapping("/home")
 	public String home() {
 		return "Home page";
@@ -42,6 +51,47 @@ public class WebController {
 		return readHtml("templates/loginSuccess.html");
 	}
 	
+    @PostMapping("/transfer")
+    public String transferMoney(@RequestParam("destinationUsername") String destinationUsername,@RequestParam("amount") int amount) {
+    	
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	Account sourceAccount = accountRepository.findByUsername(authentication.getName());
+    	Account destinationAccount = accountRepository.findByUsername(destinationUsername);
+
+        if (sourceAccount == null || destinationAccount == null) {
+            return "Uno o entrambi gli account non esistono";
+        }
+        
+        if(sourceAccount == destinationAccount)
+        	return "Scegliere un account destinazione diverso";
+
+        if (sourceAccount.getBalance() < amount) {
+            return "Saldo insufficiente per il trasferimento";
+        }
+
+        sourceAccount.setBalance(sourceAccount.getBalance() - amount);
+        destinationAccount.setBalance(destinationAccount.getBalance() + amount);
+
+        accountRepository.save(sourceAccount);
+        accountRepository.save(destinationAccount);
+
+        return "Trasferimento completato con successo";
+    }
+    
+    @GetMapping("/balance")
+    public Integer getBalance() {
+    
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	Account sourceAccount = accountRepository.findByUsername(authentication.getName());
+    	
+    	return sourceAccount.getBalance();
+    }
+    
+	@GetMapping("/money_transfer")
+	public String FormMoneyTransfer() {
+		return readHtml("templates/Money_Transfer.html");
+	}
+	
 	private String readHtml(String path) {
 		
 		String content = "";
@@ -55,4 +105,5 @@ public class WebController {
 		
 		return content;
 	}
+	
 }

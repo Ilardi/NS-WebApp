@@ -16,6 +16,11 @@ public class Controller {
 		return readHtml("templates/evilHome.html");
 	}
 	
+	@GetMapping("/CSRF_Attack")
+	public String CSRF_HOME() {
+		return readHtml("templates/CSRF.html");
+	}
+	
 	private String readHtml(String path) {
 		
 		String content = "";

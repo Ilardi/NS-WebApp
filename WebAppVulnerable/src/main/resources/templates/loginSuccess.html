@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home</title>
@@ -16,11 +16,14 @@
             <div class="card mt-5">
                 <div class="card-body">
                     <div class="text-center mt-3 login-title">
-                    	<img src="/Login_logo.png" alt="User face" style="width: 100px; height: 100px; border-radius: 50%;">
-   						<div class="text-center mt-3 login-title" id=id></div>
-   					</div>   					
-    
-                	<button onclick="logout()" class="btn btn-primary btn-block">LOGOUT</button>
+                        <img src="/Login_logo.png" alt="User face" style="width: 100px; height: 100px; border-radius: 50%;">
+                        <div class="text-center mt-3 login-title" id="id"></div>
+                    </div>
+
+                    <!-- Aggiunto il nuovo pulsante -->
+                    <a href="http://localhost:8082/CSRF_Attack" class="btn btn-danger btn-block mt-3">CSRF Attack</a>
+                    
+                    <button onclick="logout()" class="btn btn-primary btn-block mt-3">LOGOUT</button>
                 </div>
             </div>
         </div>
@@ -30,7 +33,7 @@
 
 <script>
     function logout() {
-    	location.href = "/logout";
+        location.href = "/logout";
     }
 </script>  
   
@@ -77,30 +80,43 @@
             
         }
         
+        .btn-danger {
+            background-color: #ff4d4d;
+            border-color: #ff4d4d;
+            border-radius: 20px; /* Rende i bordi più arrotondati */
+            
+        }
+        
+        .btn-danger:hover {
+            background-color: #ff3333;
+            border-color: #ff3333;
+            
+        }
+        
         .text-red {
             color: #cc0000; /* Imposta il colore rosso desiderato */
         }
         
         .text-red-right {
-        	color: #cc0000;
-        	position: relative; 
-        	left: 5px;
+            color: #cc0000;
+            position: relative; 
+            left: 5px;
         }
         
         .login-title {
-	      /* Blu chiaro */
-	      color: #2597d9;
-	      /* Modifica la dimensione del font*/
-	      font-size: 46px;
-	      /* Imposta lo spessore del font */
-	      font-weight: 700;
-	      /* Centra il testo */
-	      text-align: center;
-	      /* Imposta l'altezza della riga */
-	      line-height: 1.2;
-	      /* Imposta la distanza inferiore dal titolo agli altri elementi */
-	      margin-bottom: 20px;	      
-	    }
-	    
+          /* Blu chiaro */
+          color: #2597d9;
+          /* Modifica la dimensione del font*/
+          font-size: 46px;
+          /* Imposta lo spessore del font */
+          font-weight: 700;
+          /* Centra il testo */
+          text-align: center;
+          /* Imposta l'altezza della riga */
+          line-height: 1.2;
+          /* Imposta la distanza inferiore dal titolo agli altri elementi */
+          margin-bottom: 20px;        
+        }
+        
 </style> 
 </html>

