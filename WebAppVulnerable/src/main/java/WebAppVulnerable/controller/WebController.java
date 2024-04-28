@@ -8,33 +8,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import WebAppVulnerable.entity.Account;
 import WebAppVulnerable.repository.AccountRepository;
 
-@RestController
+@Controller
 public class WebController {
 
     @Autowired
     private AccountRepository accountRepository;
 	
-	@GetMapping("/home")
-	public String home() {
-		return "Home page";
+	@GetMapping("/")
+	public String welcome() {
+		return "welcome";
 	}
 	
 	@GetMapping("/review")
 	public String review() {
-		return readHtml("templates/review.html");
+		return "review";
 	}
 	
 	//Questo metodo prende la recensione scritta dall'utente e 
 	//costruisce un html per mostrargliela (reflected XSS).
     @PostMapping("/review")
+    @ResponseBody
     public String submitReview(@RequestParam("review") String review) {
     	
         String file = readHtml("templates/review.html");
@@ -46,20 +49,36 @@ public class WebController {
         return file.replace("<!-- {reviewText} -->", prefix + review);
     }
 	
-	@GetMapping("/login-success")
-	public String loginSuccess() {
-		return readHtml("templates/loginSuccess.html");
+	@GetMapping("/home")
+	public String home(Model model) {
+		
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	Account account = accountRepository.findByUsername(authentication.getName());
+    	
+    	model.addAttribute("username", account.getUsername());
+    	model.addAttribute("balance", account.getBalance());
+    	model.addAttribute("email", account.getEmail());
+    	model.addAttribute("address", account.getAddress());
+    	model.addAttribute("description", account.getDescription());
+    	
+		return "home";
+	}
+	
+	@GetMapping("/transfer")
+	public String getTransferForm() {
+		return "transfer";
 	}
 	
     @PostMapping("/transfer")
-    public String transferMoney(@RequestParam("destinationUsername") String destinationUsername,@RequestParam("amount") int amount) {
+    @ResponseBody
+    public String transfer(@RequestParam("destinationUsername") String destinationUsername,@RequestParam("amount") int amount) {
     	
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	Account sourceAccount = accountRepository.findByUsername(authentication.getName());
     	Account destinationAccount = accountRepository.findByUsername(destinationUsername);
 
         if (sourceAccount == null || destinationAccount == null) {
-            return "Uno o entrambi gli account non esistono";
+            return "L'account selezionato non esiste";
         }
         
         if(sourceAccount == destinationAccount)
@@ -79,6 +98,7 @@ public class WebController {
     }
     
     @GetMapping("/balance")
+    @ResponseBody
     public Integer getBalance() {
     
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -86,11 +106,26 @@ public class WebController {
     	
     	return sourceAccount.getBalance();
     }
-    
-	@GetMapping("/money_transfer")
-	public String FormMoneyTransfer() {
-		return readHtml("templates/Money_Transfer.html");
+	
+	@GetMapping("/update-account")
+	public String getUpdateAccountForm() {
+		return "updateAccount";
 	}
+	
+    @PostMapping("/update-account")
+    @ResponseBody
+    public String updateAccount(
+    		@RequestParam("email") String email, 
+    		@RequestParam("address") String address, 
+    		@RequestParam("description") String description) {
+    	
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	String username = authentication.getName();
+    	
+    	accountRepository.updateAccount(email, address, description, username);
+        
+        return "Account modificato con successo";
+    }
 	
 	private String readHtml(String path) {
 		

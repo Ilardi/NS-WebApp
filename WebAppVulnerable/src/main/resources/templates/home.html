@@ -19,23 +19,25 @@
                         <img src="/Login_logo.png" alt="User face" style="width: 100px; height: 100px; border-radius: 50%;">
                         <div class="text-center mt-3 login-title" id="id"></div>
                     </div>
-
+					
+					<h2 th:text="'Ciao ' + ${username}"></h2>
+					<p th:text="'Bilancio: ' + ${balance}"></p>
+					<p th:text="'Email: ' + ${email}"></p>
+    				<p th:text="'Indirizzo: ' + ${address}"></p>
+    				<p th:text="'Descrizione: ' + ${description}"></p> 
+					
                     <a href="http://localhost:8082/CSRF_Attack" class="btn btn-danger btn-block mt-3">CSRF Attack</a>
                     <a href="http://localhost:8082/" class="btn btn-danger btn-block mt-3">Reflected XSS Attack</a>
                     
-                    <button onclick="logout()" class="btn btn-primary btn-block mt-3">LOGOUT</button>
-                </div>
+                    <a href="/update-account" class="btn btn-primary btn-block mt-3">Update account</a>
+                    <a href="/logout" class="btn btn-primary btn-block mt-3">Logout</a>
+
+                </div>                
             </div>
         </div>
     </div>
 </div>
 </body>
-
-<script>
-    function logout() {
-        location.href = "/logout";
-    }
-</script>  
   
 <style>
         body {

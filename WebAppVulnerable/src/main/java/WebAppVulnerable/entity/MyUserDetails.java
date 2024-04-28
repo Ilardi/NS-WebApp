@@ -13,7 +13,6 @@ public class MyUserDetails implements UserDetails {
 
 	private String username;
 	private String password;
-	private Integer balance;
 	private List<GrantedAuthority> authorities;
 
 	public MyUserDetails() {}
@@ -21,7 +20,6 @@ public class MyUserDetails implements UserDetails {
 	public MyUserDetails(Account account) {
 		this.username = account.getUsername();
 		this.password = account.getPassword();
-		this.balance = account.getBalance();
 		this.authorities = new ArrayList<GrantedAuthority>();
 		this.authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 	}
@@ -39,10 +37,6 @@ public class MyUserDetails implements UserDetails {
 	@Override
 	public String getUsername() {
 		return username;
-	}
-	
-	public Integer getBalance() {
-		return balance;
 	}
 	
 	@Override

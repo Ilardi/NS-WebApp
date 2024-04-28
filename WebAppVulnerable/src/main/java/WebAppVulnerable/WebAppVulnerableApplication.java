@@ -33,9 +33,12 @@ public class WebAppVulnerableApplication {
 	//repository se necessario
 	@Bean
 	public String init() {
-		Account a1 = new Account("alice",encoder.encode("alicepass"),1000);
-		Account a2 = new Account("bob",encoder.encode("bobpass"),2000);
-		Account a3 = new Account("carl",encoder.encode("carlpass"),3000);
+		Account a1 = new Account("alice",encoder.encode("alicepass"),1000,
+				"alice@demo.com","Via Roma 42","Ciao sono Alice!");
+		Account a2 = new Account("bob",encoder.encode("bobpass"),2000,
+				"bob@demo.com","Via Napoli 15","Ciao sono Bob!");
+		Account a3 = new Account("carl",encoder.encode("carlpass"),3000,
+				"carl@demo.com","Via Trieste 7","Ciao sono Carl!");
 		
 		accountRepo.save(a1);
 		accountRepo.save(a2);

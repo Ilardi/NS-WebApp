@@ -28,14 +28,14 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		
 		http.authorizeHttpRequests(t -> t
-				.requestMatchers("/home").permitAll()
+				.requestMatchers("/").permitAll()
 				.anyRequest().authenticated());
 		
 		http.formLogin(t -> t
-				.defaultSuccessUrl("/login-success"));
+				.defaultSuccessUrl("/home"));
 		
 		http.logout(t -> t
-				.logoutSuccessUrl("/home"));
+				.logoutSuccessUrl("/"));
 		
 		//Disabilita CSRF protection
 		http.csrf(t -> t.disable());

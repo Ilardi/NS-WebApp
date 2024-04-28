@@ -9,13 +9,20 @@ public class Account {
 	private @Id String username;
 	private String password;
 	private Integer balance;
+	private String email;
+	private String address;
+	private String description;
 	
 	public Account() {};
-	
-	public Account(String username, String password, Integer balance) {
+
+	public Account(String username, String password, Integer balance, 
+			String email, String address, String description) {
 		this.username = username;
 		this.password = password;
 		this.balance = balance;
+		this.email = email;
+		this.address = address;
+		this.description = description;
 	}
 
 	public String getUsername() {
@@ -40,6 +47,30 @@ public class Account {
 
 	public void setBalance(int balance) {
 		this.balance = balance;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }
