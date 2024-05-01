@@ -1,5 +1,7 @@
 package WebAppVulnerable.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,15 +11,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import WebAppVulnerable.entity.Account;
+import WebAppVulnerable.entity.Comment;
 import WebAppVulnerable.repository.AccountRepository;
+import WebAppVulnerable.service.CommentService;
 
 @Controller
 public class WebController {
 
     @Autowired
     private AccountRepository accountRepository;
+	private final CommentService commentService;
+
+	public WebController(CommentService commentService) {
+		this.commentService = commentService;
+	}
 	
 	@GetMapping("/")
 	public String welcome() {
@@ -124,4 +135,52 @@ public class WebController {
         return "Account modificato con successo";
     }
 	
+	@GetMapping("/board")
+	public String showBoard(Model model) {
+		List<Comment> comments = commentService.findAll();
+		model.addAttribute("comments", comments);
+		return "board";
+	}
+
+	@GetMapping("/comments")
+	public ResponseEntity<List<Comment>> getComments() {
+        List<Comment> comments = commentService.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(comments);
+    }
+
+	@PostMapping("/comment")
+	public ResponseEntity<Object> createComment(@RequestParam String text) {
+
+		// Retrieve username from authenticated user
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+
+		// Handle scenario where the user is not authenticated
+		if (username == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		
+		// Handle scenario where the user has inserted no text
+		if (text.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Comment text cannot be empty");
+		}
+
+		// Create a comment object
+		Comment createdComment = commentService.createComment(username, text);
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
+	}
+
+	private String readHtml(String path) {
+		
+		String content = "";
+		
+		try {
+			InputStream resource = new ClassPathResource(path).getInputStream();
+			content = new String(resource.readAllBytes(), StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return content;
+	}
 }
