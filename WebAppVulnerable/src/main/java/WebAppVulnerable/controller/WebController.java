@@ -1,14 +1,8 @@
 package WebAppVulnerable.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import WebAppVulnerable.entity.Account;
 import WebAppVulnerable.entity.Comment;
@@ -47,16 +43,18 @@ public class WebController {
 	//Questo metodo prende la recensione scritta dall'utente e 
 	//costruisce un html per mostrargliela (reflected XSS).
     @PostMapping("/review")
-    @ResponseBody
-    public String submitReview(@RequestParam("review") String review) {
+    public String submitReview(Model model, @RequestParam String review) {
     	
-        String file = readHtml("templates/review.html");
-        String prefix = "<h1>La tua recensione:</h1><br>";
+        String prefix = "<h1>La tua recensione:</h1>";
+        model.addAttribute("prefix", prefix);
         
         //Questo per il fix
         //review = HtmlUtils.htmlEscape(review);
-        
-        return file.replace("<!-- {reviewText} -->", prefix + review);
+        //Oppure usa th:text nel file html
+        //al posto di th:utext
+        model.addAttribute("review", review);
+
+        return "review";
     }
 	
 	@GetMapping("/home")
@@ -185,5 +183,4 @@ public class WebController {
 		
 		return content;
 	}
-	
 }
