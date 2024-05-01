@@ -169,18 +169,4 @@ public class WebController {
 		Comment createdComment = commentService.createComment(username, text);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
 	}
-
-	private String readHtml(String path) {
-		
-		String content = "";
-		
-		try {
-			InputStream resource = new ClassPathResource(path).getInputStream();
-			content = new String(resource.readAllBytes(), StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return content;
-	}
 }
