@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board</title>
+    <style>
+        /* Add your custom CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>Board</h1>
+    
+    <!-- Display existing comments -->
+    <div id="comments">
+        <h2>Existing Comments</h2>
+        <ul id="comments-list">
+            <!-- Render initial comments using Thymeleaf -->
+            <!-- Without this, scripts even if stored and displayed won't be executable -->
+            <li th:each="comment : ${comments}" th:utext="${comment.username + ': ' + comment.comment}"></li>
+        </ul>
+    </div>
+
+    <!-- Form to add a new comment -->
+    <div id="add-comment">
+        <h2>Add a Comment</h2>
+        <form id="comment-form">
+            <textarea id="comment-text" rows="4" cols="50" placeholder="Enter your comment"></textarea><br>
+            <button type="submit">Post Comment</button>
+        </form>
+    </div>
+
+    <script>
+        // Fetch comments from the server and display them
+        fetchComments();
+
+        // Function to fetch comments from the server
+        function fetchComments() {
+            fetch('/comments')
+                .then(response => response.json())
+                .then(data => {
+                    const commentsList = document.getElementById('comments-list');
+                    // Clear previous comments
+                    commentsList.innerHTML = ''; 
+                    data.forEach(comment => {
+                        const listItem = document.createElement('li');
+                        // Using 'textContent' or 'innerText' instead of 'innerHTML' will automatically escapes any HTML tags.
+                        // listItem.textContent = comment.username + ': ' + comment.comment;
+                        listItem.innerHTML = comment.username + ': ' + comment.comment;
+                        commentsList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching comments:', error));
+        }
+
+        // Event listener for form submission to add a new comment
+        document.getElementById('comment-form').addEventListener('submit', function(event) {
+            // Prevent default form submission
+            event.preventDefault();
+            const commentText = document.getElementById('comment-text').value.trim();
+            if (commentText !== '') {
+                addComment(commentText);
+            }
+        });
+
+        // Function to add a new comment
+        function addComment(commentText) {
+            fetch('/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'text=' + encodeURIComponent(commentText),
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Refresh comments after successful addition
+                    fetchComments();
+                    // Clear input field
+                    document.getElementById('comment-text').value = '';
+                } else {
+                    console.error('Failed to add comment:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Error adding comment:', error));
+        }
+    </script>
+</body>
+</html>

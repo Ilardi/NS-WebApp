@@ -24,6 +24,7 @@ public class SecurityConfig {
 	    return new BCryptPasswordEncoder();
 	}
 	
+	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		
@@ -39,7 +40,10 @@ public class SecurityConfig {
 		
 		//Disabilita CSRF protection
 		http.csrf(t -> t.disable());
-		
+
+        // Disable XSS protection headers (should be already disabled by default)
+        http.headers(t -> t.xssProtection().disable());
+
 		//Necessario per visualizzare console h2
 		//Forse impatta XSS?
 		http.headers(t -> t.frameOptions(s -> s.sameOrigin())); 
