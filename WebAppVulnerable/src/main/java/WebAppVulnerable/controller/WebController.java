@@ -1,11 +1,6 @@
 package WebAppVulnerable.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -37,16 +32,18 @@ public class WebController {
 	//Questo metodo prende la recensione scritta dall'utente e 
 	//costruisce un html per mostrargliela (reflected XSS).
     @PostMapping("/review")
-    @ResponseBody
-    public String submitReview(@RequestParam("review") String review) {
+    public String submitReview(Model model, @RequestParam String review) {
     	
-        String file = readHtml("templates/review.html");
-        String prefix = "<h1>La tua recensione:</h1><br>";
+        String prefix = "<h1>La tua recensione:</h1>";
+        model.addAttribute("prefix", prefix);
         
         //Questo per il fix
         //review = HtmlUtils.htmlEscape(review);
-        
-        return file.replace("<!-- {reviewText} -->", prefix + review);
+        //Oppure usa th:text nel file html
+        //al posto di th:utext
+        model.addAttribute("review", review);
+
+        return "review";
     }
 	
 	@GetMapping("/home")
@@ -126,19 +123,5 @@ public class WebController {
         
         return "Account modificato con successo";
     }
-	
-	private String readHtml(String path) {
-		
-		String content = "";
-		
-		try {
-			InputStream resource = new ClassPathResource(path).getInputStream();
-			content = new String(resource.readAllBytes(), StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return content;
-	}
 	
 }
