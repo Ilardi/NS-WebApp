@@ -18,7 +18,6 @@ public class CustomAccountRepositoryImpl implements CustomAccountRepository {
     			+ "description='" + description + "', "
     			+ "address='" + address + "' "
     			+ "WHERE username='" + username + "'";
-    	System.out.println(queryString);
         em.createNativeQuery(queryString).executeUpdate();
 	}
 }

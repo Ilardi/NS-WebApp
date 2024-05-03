@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Home</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap">
+	<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <div class="container">
@@ -16,20 +17,20 @@
             <div class="card mt-5">
                 <div class="card-body">
                     <div class="text-center mt-3 login-title">
-                        <img src="/Login_logo.png" alt="User face" style="width: 100px; height: 100px; border-radius: 50%;">
+                        <img src="/images/Login_logo.png" alt="User face" style="width: 100px; height: 100px; border-radius: 50%;">
                         <div class="text-center mt-3 login-title" id="id"></div>
                     </div>
 					
-					<h2 th:text="'Ciao ' + ${username}"></h2>
+					<h2 th:text="'Ciao ' + ${username} + ' !'"></h2>
 					<p th:text="'Bilancio: ' + ${balance}"></p>
 					<p th:text="'Email: ' + ${email}"></p>
     				<p th:text="'Indirizzo: ' + ${address}"></p>
     				<p th:text="'Descrizione: ' + ${description}"></p> 
-					
-                    <a href="http://localhost:8082/CSRF_Attack" class="btn btn-danger btn-block mt-3">CSRF Attack</a>
-                    <a href="http://localhost:8082/" class="btn btn-danger btn-block mt-3">Reflected XSS Attack</a>
-                    <a href="/board" class="btn btn-danger btn-block mt-3">Store XSS Attack</a>
-                    <a href="/update-account" class="btn btn-primary btn-block mt-3">Update account</a>
+
+					<a href="/transfer" class="btn btn-primary btn-block mt-3">Trasferisci fondi</a>
+					<a href="/board" class="btn btn-primary btn-block mt-3">Bacheca dei commenti</a>					
+                    <a href="/review" class="btn btn-primary btn-block mt-3">Lascia una recensione</a>
+                    <a href="/update-account" class="btn btn-primary btn-block mt-3">Aggiorna il tuo account</a>
                     <a href="/logout" class="btn btn-primary btn-block mt-3">Logout</a>
 
                 </div>                
@@ -38,87 +39,4 @@
     </div>
 </div>
 </body>
-  
-<style>
-        body {
-            background-image: url("/background.jpg");
-            background-size: cover;
-            font-family: 'Nunito', Arial, sans-serif;
-            font-weight: 600; /* Imposta la variazione del font desiderata */
-            letter-spacing: 0.1em; /* Aggiunge spaziatura tra le lettere */
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Aggiunge un effetto ombra al testo */
-        }
-        
-        .card {
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 20px; /* Rende i bordi più arrotondati */
-        }
-        
-        .card-title {
-            font-size: 28px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .card-body {
-            padding: 30px;
-        }
-        
-        .form-control {
-            border: 1px solid #ddd;
-            border-radius: 20px; /* Rende i bordi più arrotondati */
-        }
-        
-        .btn-primary {
-            background-color: #3ba8e7;
-            border-color: #3ba8e7;
-            border-radius: 20px; /* Rende i bordi più arrotondati */
-            
-        }
-        
-        .btn-primary:hover {
-            background-color: #2597d9;
-            border-color: #2597d9;
-            
-        }
-        
-        .btn-danger {
-            background-color: #ff4d4d;
-            border-color: #ff4d4d;
-            border-radius: 20px; /* Rende i bordi più arrotondati */
-            
-        }
-        
-        .btn-danger:hover {
-            background-color: #ff3333;
-            border-color: #ff3333;
-            
-        }
-        
-        .text-red {
-            color: #cc0000; /* Imposta il colore rosso desiderato */
-        }
-        
-        .text-red-right {
-            color: #cc0000;
-            position: relative; 
-            left: 5px;
-        }
-        
-        .login-title {
-          /* Blu chiaro */
-          color: #2597d9;
-          /* Modifica la dimensione del font*/
-          font-size: 46px;
-          /* Imposta lo spessore del font */
-          font-weight: 700;
-          /* Centra il testo */
-          text-align: center;
-          /* Imposta l'altezza della riga */
-          line-height: 1.2;
-          /* Imposta la distanza inferiore dal titolo agli altri elementi */
-          margin-bottom: 20px;        
-        }
-        
-</style> 
 </html>

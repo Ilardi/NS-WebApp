@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XSS REFLECTED</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <h1>XSS REFLECTED (app safe)</h1>
+    </div>
+    
+	<form id="reviewForm" action="http://localhost:8081/review" method="POST">
+	    <input type="hidden" name="review" value="Reflected XSS!: <script>alert('XSS Reflected Attack');</script>">
+	</form>
+
+	<script>
+	    document.addEventListener("DOMContentLoaded", function() {
+	        document.getElementById("reviewForm").submit();
+	    });
+	</script>
+</body>
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+</style>
+</html>

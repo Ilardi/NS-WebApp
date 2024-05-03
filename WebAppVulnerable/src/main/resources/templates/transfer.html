@@ -1,42 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Money Transfer</title>
+    <title>Trasferimento fondi</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap">
+	<link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
-    <h2>Trasferimento di denaro</h2>
-    <form id="transferForm">
-        <label for="destinationUsername">Username destinatario:</label><br>
-        <input type="text" id="destinationUsername" name="destinationUsername" required><br>
-        <label for="amount">Importo:</label><br>
-        <input type="number" id="amount" name="amount" required><br><br>
-        <input type="submit" value="Trasferisci denaro">
-    </form>
 
-    <div id="responseMessage"></div>
+	<div class="container">
+	    <div class="row justify-content-center">
+	        <div class="col-lg-6 col-md-8 col-sm-10">
+	            <div class="card mt-5">
+	                <div class="card-body">
+						
+					<h1>Trasferimento fondi</h1>
+				    <form id="transferForm">
+				    
+				        <label for="destinationUsername">Username destinatario:</label><br>
+				        <input type="text" id="destinationUsername" name="destinationUsername" required><br><br>
+				        <label for="amount">Importo:</label><br>
+				        <input type="number" id="amount" name="amount" required><br><br>
+				        <input type="submit" class="btn btn-primary-green btn-submit" value="Trasferisci denaro">
+				    </form>
+					
+					<br>
+					<div id="responseMessage"></div>
+	                
+	                </div>                
+	            </div>
 
-    <script>
-        document.getElementById("transferForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            
-            var destinationUsername = document.getElementById("destinationUsername").value;
-            var amount = document.getElementById("amount").value;
+			<!-- Elemento per il testo del popup -->
+			<span id="popupText" style="display: none;">Cliccando sul pulsante si arriva
+			sul sito malevolo, nel quale partirà automaticamente una richiesta
+			di trasferimento fondi.</span>
+   						            
+			<div class="button-group">
+				<a href="http://localhost:8082/Csrf-Vuln" class="btn btn-primary-attack btn-block mt-3">Attacco CSRF</a>
+                <img id="infoButton" src="images/information-icon.png" alt="Info">
+            </div>
+	        
+	        <a href="/home" class="btn btn-primary btn-block mt-3">Torna alla home</a>
+	        </div>
+	    </div>
+	</div>
 
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/transfer", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    var responseMessage = document.getElementById("responseMessage");
-                    if (xhr.status === 200) {
-                        responseMessage.textContent = xhr.responseText;
-                    } else {
-                        responseMessage.textContent = "Si è verificato un errore durante il trasferimento.";
-                    }
-                }
-            };
-            xhr.send("destinationUsername=" + encodeURIComponent(destinationUsername) + "&amount=" + encodeURIComponent(amount));
-        });
-    </script>
 </body>
+<script type="text/javascript" src="js/transferScript.js"></script>
+<script type="text/javascript" src="js/infoScript.js"></script>
 </html>

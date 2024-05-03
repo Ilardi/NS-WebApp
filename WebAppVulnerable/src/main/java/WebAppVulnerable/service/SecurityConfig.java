@@ -24,11 +24,11 @@ public class SecurityConfig {
 	    return new BCryptPasswordEncoder();
 	}
 	
-	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		
 		http.authorizeHttpRequests(t -> t
+				.requestMatchers("/js/**","/css/**","/images/**").permitAll()
 				.requestMatchers("/").permitAll()
 				.anyRequest().authenticated());
 		
@@ -42,7 +42,8 @@ public class SecurityConfig {
 		http.csrf(t -> t.disable());
 
         // Disable XSS protection headers (should be already disabled by default)
-        http.headers(t -> t.xssProtection().disable());
+		// Per adesso lascio qui ma non serve
+        //http.headers(t -> t.xssProtection(s -> s.disable()));
 
 		//Necessario per visualizzare console h2
 		//Forse impatta XSS?
