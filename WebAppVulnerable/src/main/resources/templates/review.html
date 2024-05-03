@@ -1,24 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recensione</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap">
+	<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>Lascia una recensione</h1>
-    <form id="reviewForm" action="/review" method="POST">
-        <label for="review">Scrivi la tua recensione:</label><br>
-        <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
-        <input type="submit" value="Invia">
-    </form>
-    <br>
-    <div>
-    	<p th:utext="${prefix}"></p>
-    	
-    	<!-- Soluzione: usare th:text -->
-    	<p th:utext="${review}"></p>
-    </div>
+
+	<div class="container">
+	    <div class="row justify-content-center">
+	        <div class="col-lg-6 col-md-8 col-sm-10">
+	            <div class="card mt-5">
+	                <div class="card-body">
+						
+					    <h2>Lascia una recensione:</h2>
+					    <form id="reviewForm" action="/review" method="POST">
+					        <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
+					        <input type="submit" class="btn btn-primary-green btn-submit" value="Invia recensione">
+					    </form>
+					    <br>
+					    <div>
+					    	<p th:utext="${prefix}"></p>
+					    	
+					    	<!-- Soluzione: usare th:text -->
+					    	<p th:utext="${review}"></p>
+   						</div>
+	                
+        			<!-- Elemento per il testo del popup -->
+   					<span id="popupText" style="display: none;">Cliccando sul pulsante si arriva
+   					sul sito malevolo, nel quale partirà automaticamente una richiesta con
+   					il payload di attacco (recensione contenente tag script).</span>
+   					
+	                </div>                
+	            </div>
+   			
+   			<div class="button-group">
+				<a href="http://localhost:8082/Xss-Reflected-Vuln" class="btn btn-primary-attack btn-block mt-3">Attacco Reflected XSS</a>
+                <img id="infoButton" src="images/information-icon.png" alt="Info">
+            </div>    
+	        
+	        <a href="/home" class="btn btn-primary btn-block mt-3">Torna alla home</a>
+	        </div>
+	    </div>
+	</div>
 
 </body>
+<script type="text/javascript" src="js/infoScript.js"></script>
 </html>

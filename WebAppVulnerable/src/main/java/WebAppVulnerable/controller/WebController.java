@@ -24,11 +24,9 @@ public class WebController {
 
     @Autowired
     private AccountRepository accountRepository;
-	private final CommentService commentService;
-
-	public WebController(CommentService commentService) {
-		this.commentService = commentService;
-	}
+    
+    @Autowired
+	private CommentService commentService;
 	
 	@GetMapping("/")
 	public String welcome() {
@@ -45,7 +43,7 @@ public class WebController {
     @PostMapping("/review")
     public String submitReview(Model model, @RequestParam String review) {
     	
-        String prefix = "<h1>La tua recensione:</h1>";
+        String prefix = "<h3>La tua recensione:</h3>";
         model.addAttribute("prefix", prefix);
         
         //Questo per il fix
@@ -91,6 +89,9 @@ public class WebController {
         
         if(sourceAccount == destinationAccount)
         	return "Scegliere un account destinazione diverso";
+        
+        if(amount <= 0)
+        	return "L'importo deve essere positivo";
 
         if (sourceAccount.getBalance() < amount) {
             return "Saldo insufficiente per il trasferimento";
@@ -129,6 +130,17 @@ public class WebController {
     	
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	String username = authentication.getName();
+    	Account account = accountRepository.findByUsername(username);
+    	
+    	// Se i campi sono vuoti lasciali invariati    	
+    	if(email.isBlank())
+    		email = account.getEmail();
+    	
+    	if(address.isBlank())
+    		address = account.getAddress();
+    	
+    	if(description.isBlank())
+    		description = account.getDescription();
     	
     	accountRepository.updateAccount(email, address, description, username);
         
