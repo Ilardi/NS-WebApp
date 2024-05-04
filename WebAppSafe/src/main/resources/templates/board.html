@@ -36,33 +36,6 @@
 					    <div id="sorting-options">
 					        <label for="sort-field">Ordinato per:</label>
 					        <select id="sort-field">
-					        
-					            <script>
-					                // Script tag for dynamic option creation
-					                // This script checks if the sort field exists in the dropdown options
-					                const params = new URLSearchParams(window.location.search);
-					                const sortField = params.get('sortField');
-					    
-					                if (sortField) {
-					                    console.log("Retrieve sortField: ", sortField);
-					    
-					                    const dropdown = document.getElementById('sort-field');
-					                    console.log("Old dropdown value: ", dropdown.value);
-					                    
-					                    const existingOption = Array.from(dropdown.options).find(option => option.value === sortField);
-					    
-					                    if (!existingOption) {
-					                        // If the sort field doesn't exist in the dropdown options, add it dynamically
-					                        document.write('<option value="' + sortField + '">' + sortField + '</option>');
-					                    }
-					    
-					                    dropdown.value = sortField;
-					                    console.log("New dropmenu value: ", dropdown.value);
-					    
-					                    // Call the sort function to apply the sort
-					                    sortComments();
-					                }
-					            </script>
 					            
 					            <!-- Dynamically added options will be inserted here -->
 					            <option value="id">Data</option>

@@ -78,7 +78,39 @@ function renderComments() {
         commentsList.appendChild(listItem);
     });
 }
+	           
+function extractParams() {
+    const params = new URLSearchParams(window.location.search);
+    const sortField = params.get('sortField');
 
+    // Check if sort field is provided
+    if (sortField) {
+        console.log("Retrieve sortField: ", sortField);
+
+        // Check if the sort field exists in the dropdown options
+        const dropdown = document.getElementById('sort-field');
+        console.log("Old dropdown value: ", dropdown.value);
+
+        const existingOption = Array.from(dropdown.options).find(option => option.value === sortField);
+
+        if (!existingOption) {
+            // If the sort field doesn't exist in the dropdown options, add it dynamically
+            var option = document.createElement("option");
+    		option.text = sortField;
+    		option.value = sortField;
+            dropdown.add(option);
+        }
+
+        // Set the sort field in the dropdown
+        dropdown.value = sortField;
+        console.log("New dropmenu value: ", dropdown.value);
+
+        // Call the sort function to apply the sort
+        sortComments();
+    }
+}
+					           
+					            
 // Wait for the DOM content to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     
