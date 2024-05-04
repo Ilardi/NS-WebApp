@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trasferimento fondi</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap">
+	<link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+	<div class="container">
+	    <div class="row justify-content-center">
+	        <div class="col-lg-6 col-md-8 col-sm-10">
+	            <div class="card mt-5">
+	                <div class="card-body">
+						
+					<h1>Trasferimento fondi</h1>
+				    <form id="transferForm">
+				    
+				        <label for="destinationUsername">Username destinatario:</label><br>
+				        <input type="text" id="destinationUsername" name="destinationUsername" required><br><br>
+				        <label for="amount">Importo:</label><br>
+				        <input type="number" id="amount" name="amount" required><br><br>
+				        <input type="submit" class="btn btn-primary-green btn-submit" value="Trasferisci denaro">
+				    </form>
+					
+					<br>
+					<div id="responseMessage"></div>
+	                
+	                </div>                
+	            </div>
+
+			<!-- Elemento per il testo del popup -->
+			<span id="popupText" style="display: none;">Cliccando sul pulsante si arriva
+			sul sito malevolo, nel quale partirà automaticamente una richiesta
+			di trasferimento fondi.</span>
+   						            
+			<div class="button-group">
+				<a href="http://localhost:8082/Csrf-Vuln" class="btn btn-primary-attack btn-block mt-3">Attacco CSRF</a>
+                <img id="infoButton" src="images/information-icon.png" alt="Info">
+            </div>
+	        
+	        <a href="/home" class="btn btn-primary btn-block mt-3">Torna alla home</a>
+	        </div>
+	    </div>
+	</div>
+
+</body>
+<script type="text/javascript" src="js/transferScript.js"></script>
+<script type="text/javascript" src="js/infoScript.js"></script>
+</html>

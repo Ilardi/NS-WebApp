@@ -8,9 +8,8 @@ public class CustomAccountRepositoryImpl implements CustomAccountRepository {
     @PersistenceContext
     private EntityManager em;
     
-    //soluzione: usa parametrized query 
-    //PREPARED STATEMENT (:email, NON ? che sono i placeholder)
-    //e fai input validation (nel controller)
+    // Fix per SQL injection: query parametrica e
+    // input validation nel controller
     @Override
 	public void updateAccount(String email, String address, String description,
 			String username) {

@@ -1,4 +1,4 @@
-package WebAppVulnerable.service;
+package WebAppSafe.service;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

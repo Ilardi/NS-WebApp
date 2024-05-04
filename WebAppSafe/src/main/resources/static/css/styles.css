@@ -1,0 +1,126 @@
+body {
+    background-image: url("../images/background.jpg");
+    background-size: cover;
+    font-family: 'Nunito', Arial, sans-serif;
+    font-weight: 600; /* Imposta la variazione del font desiderata */
+    letter-spacing: 0.1em; /* Aggiunge spaziatura tra le lettere */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Aggiunge un effetto ombra al testo */
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px; /* Rende i bordi più arrotondati */
+}
+
+.card-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-body {
+    padding: 30px;
+}
+
+.form-control {
+    border: 1px solid #ddd;
+    border-radius: 20px; /* Rende i bordi più arrotondati */
+}
+
+.btn-primary {
+    background-color: #3ba8e7;
+    border-color: #3ba8e7;
+    border-radius: 20px; /* Rende i bordi più arrotondati */
+    
+}
+
+.btn-primary-attack {
+	color: white;
+    background-color: #ff4300;
+    border-color: #ff4300;
+    border-radius: 20px; /* Rende i bordi più arrotondati */
+    
+}
+
+.btn-primary-green {
+    background-color: #51f542;
+    border-color: #51f542;
+    border-radius: 20px; /* Rende i bordi più arrotondati */
+    
+}
+
+.btn-primary-blue {
+	color: white;
+    background-color: blue;
+    border-color: blue;
+    border-radius: 20px; /* Rende i bordi più arrotondati */
+    
+}
+
+.btn-primary:hover {
+    background-color: #2597d9;
+    border-color: #2597d9;
+    
+}
+
+.btn-danger {
+    background-color: #ff4d4d;
+    border-color: #ff4d4d;
+    border-radius: 20px; /* Rende i bordi più arrotondati */
+    
+}
+
+.btn-danger:hover {
+    background-color: #ff3333;
+    border-color: #ff3333;
+    
+}
+
+.text-red {
+    color: #cc0000; /* Imposta il colore rosso desiderato */
+}
+
+.text-red-right {
+    color: #cc0000;
+    position: relative; 
+    left: 5px;
+}
+
+.login-title {
+  /* Blu chiaro */
+  color: #2597d9;
+  /* Modifica la dimensione del font*/
+  font-size: 46px;
+  /* Imposta lo spessore del font */
+  font-weight: 700;
+  /* Centra il testo */
+  text-align: center;
+  /* Imposta l'altezza della riga */
+  line-height: 1.2;
+  /* Imposta la distanza inferiore dal titolo agli altri elementi */
+  margin-bottom: 20px;        
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+/* Stile per il pulsante info */
+#infoButton {
+    width: 30px; /* Modifica le dimensioni dell'immagine se necessario */
+    height: 30px;
+    cursor: pointer; /* Cambia il cursore quando si passa sopra l'immagine */
+    position: absolute; /* Aggiunto posizionamento assoluto */
+    right: -34px; /* Sposta il pulsante a destra */
+    bottom: 4px; /* Sposta il pulsante leggermente in basso */
+}
+
+/* Stile per il popup */
+.popup {
+    position: absolute;
+    background: white;
+    border: 1px solid black;
+    padding: 10px;
+} 

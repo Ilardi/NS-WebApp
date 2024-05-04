@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bacheca</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap">
+	<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+	<div class="container">
+	    <div class="row justify-content-center">
+	        <div class="col-lg-6 col-md-8 col-sm-10">
+	            <div class="card mt-5">
+	                <div class="card-body">
+
+
+					    <h1 style="color: blue;">Bacheca dei commenti</h1>
+					
+						    <!-- Display existing comments -->
+					    <div id="comments">
+					        <ul id="comments-list">
+					            <!-- Render initial comments using Thymeleaf -->
+					            <!-- Without this, scripts even if stored and displayed won't be executable -->
+					            <li th:each="comment : ${comments}" th:utext="${comment.username + ': ' + comment.comment}"></li>
+					        </ul>
+					    </div>
+						<br>
+					
+					
+					    <!-- Sorting options -->
+					    <div id="sorting-options">
+					        <label for="sort-field">Ordinato per:</label>
+					        <select id="sort-field">
+					        
+					            <script>
+					                // Script tag for dynamic option creation
+					                // This script checks if the sort field exists in the dropdown options
+					                const params = new URLSearchParams(window.location.search);
+					                const sortField = params.get('sortField');
+					    
+					                if (sortField) {
+					                    console.log("Retrieve sortField: ", sortField);
+					    
+					                    const dropdown = document.getElementById('sort-field');
+					                    console.log("Old dropdown value: ", dropdown.value);
+					                    
+					                    const existingOption = Array.from(dropdown.options).find(option => option.value === sortField);
+					    
+					                    if (!existingOption) {
+					                        // If the sort field doesn't exist in the dropdown options, add it dynamically
+					                        document.write('<option value="' + sortField + '">' + sortField + '</option>');
+					                    }
+					    
+					                    dropdown.value = sortField;
+					                    console.log("New dropmenu value: ", dropdown.value);
+					    
+					                    // Call the sort function to apply the sort
+					                    sortComments();
+					                }
+					            </script>
+					            
+					            <!-- Dynamically added options will be inserted here -->
+					            <option value="id">Data</option>
+					            <option value="username">Username</option>
+					        </select>
+					        
+					        <br>
+					        <label for="sort-order">Ordinamento:</label>
+					        <select id="sort-order">
+					            <option value="asc">Ascendente</option>
+					            <option value="desc">Discendente</option>
+					        </select>
+					        <button id="sortButton" class="btn-primary-blue">Ordina</button>
+					    </div>
+					    <br>
+					
+					    <!-- Form to add a new comment -->
+					    <div id="add-comment">
+					        <h3 style="color: #1ce622;">Aggiungi un commento</h3>
+					        <form id="comment-form">
+					            <textarea id="comment-text" rows="4" cols="50" placeholder="Aggiungi un commento"></textarea><br>
+					            <button type="submit" class="btn btn-primary-green btn-block mt-3">Posta il commento</button>
+					        </form>
+					    </div>
+					    
+					    <br>
+					    <div style="color: red;">
+					    	<b>Esempio di payload per Stored XSS: </b><br>
+					    	&lt;script&gt;alert("Stored XSS!");&lt;/script&gt; <br>
+					    	(refreshare la pagina dopo averlo inserito)
+					    </div>
+    
+				</div>
+	        </div>
+	        
+   			<!-- Elemento per il testo del popup -->
+			<span id="popupText" style="display: none;">Cliccando sul pulsante si arriva
+			sul sito malevolo, nel quale partirà automaticamente una richiesta GET
+			per effettuare l'attacco DOM XSS (cioè con lo script inserito nel 
+			query parameter ?sortField ).
+			</span>
+			
+   			<div class="button-group">
+				<a href="http://localhost:8082/Xss-Dom-Safe" class="btn btn-primary-attack btn-block mt-3">Attacco DOM XSS</a>
+                <img id="infoButton" src="images/information-icon.png" alt="Info">
+            </div>
+	        
+	        <a href="/home" class="btn btn-primary btn-block mt-3">Torna alla home</a><br><br>
+	    </div>
+	</div>
+</div>
+
+</body>
+<script type="text/javascript" src="js/boardScript.js"></script>
+<script type="text/javascript" src="js/infoScript.js"></script>
+</html>

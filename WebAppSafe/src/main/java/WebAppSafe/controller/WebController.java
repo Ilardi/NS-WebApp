@@ -1,4 +1,4 @@
-package WebAppVulnerable.controller;
+package WebAppSafe.controller;
 
 import java.util.List;
 
@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import WebAppSafe.entity.Account;
+import WebAppSafe.entity.Comment;
+import WebAppSafe.repository.AccountRepository;
+import WebAppSafe.service.CommentService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import WebAppVulnerable.entity.Account;
-import WebAppVulnerable.entity.Comment;
-import WebAppVulnerable.repository.AccountRepository;
-import WebAppVulnerable.service.CommentService;
 
 @Controller
 public class WebController {
@@ -45,9 +46,6 @@ public class WebController {
     	
         String prefix = "<h3>La tua recensione:</h3>";
         model.addAttribute("prefix", prefix);
-        
-        //Per il fix usa th:text nel file html
-        //al posto di th:utext
         model.addAttribute("review", review);
 
         return "review";
