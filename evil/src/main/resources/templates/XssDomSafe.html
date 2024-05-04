@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM XSS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <h1>DOM XSS (app safe)</h1>
+    </div>
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    	
+        var baseUrl = "http://localhost:8081/board";
+        var sortFieldValue = "?sortField=\<script\>alert('DOM XSS Attack!');\<\/script\>";
+        var urlWithQueryParam = baseUrl + sortFieldValue;
+
+        window.location.href = urlWithQueryParam;
+    });
+</script>
+
+</body>
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+</style>
+</html>

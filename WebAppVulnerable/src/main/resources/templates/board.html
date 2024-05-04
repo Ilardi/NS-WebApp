@@ -1,192 +1,121 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Board</title>
-    <style>
-        /* Add your custom CSS styles here */
-    </style>
+    <title>Bacheca</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap">
+	<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>Board</h1>
 
-    <!-- Sorting options -->
-    <div id="sorting-options">
-        <h2>Sort Comments</h2>
-        <label for="sort-field">Sort by:</label>
-        <select id="sort-field">
-            <script>
-                // Script tag for dynamic option creation
-                // This script checks if the sort field exists in the dropdown options
-                const params = new URLSearchParams(window.location.search);
-                const sortField = params.get('sortField');
+	<div class="container">
+	    <div class="row justify-content-center">
+	        <div class="col-lg-6 col-md-8 col-sm-10">
+	            <div class="card mt-5">
+	                <div class="card-body">
+
+
+					    <h1 style="color: blue;">Bacheca dei commenti</h1>
+					
+						    <!-- Display existing comments -->
+					    <div id="comments">
+					        <ul id="comments-list">
+					            <!-- Render initial comments using Thymeleaf -->
+					            <!-- Without this, scripts even if stored and displayed won't be executable -->
+					            <li th:each="comment : ${comments}" th:utext="${comment.username + ': ' + comment.comment}"></li>
+					        </ul>
+					    </div>
+						<br>
+					
+					
+					    <!-- Sorting options -->
+					    <div id="sorting-options">
+					        <label for="sort-field">Ordinato per:</label>
+					        <select id="sort-field">
+					        
+					            <script>
+					                // Script tag for dynamic option creation
+					                // This script checks if the sort field exists in the dropdown options
+					                const params = new URLSearchParams(window.location.search);
+					                const sortField = params.get('sortField');
+					    
+					                if (sortField) {
+					                    console.log("Retrieve sortField: ", sortField);
+					    
+					                    const dropdown = document.getElementById('sort-field');
+					                    console.log("Old dropdown value: ", dropdown.value);
+					                    
+					                    const existingOption = Array.from(dropdown.options).find(option => option.value === sortField);
+					    
+					                    if (!existingOption) {
+					                        // If the sort field doesn't exist in the dropdown options, add it dynamically
+					                        document.write('<option value="' + sortField + '">' + sortField + '</option>');
+					                    }
+					    
+					                    dropdown.value = sortField;
+					                    console.log("New dropmenu value: ", dropdown.value);
+					    
+					                    // Call the sort function to apply the sort
+					                    sortComments();
+					                }
+					            </script>
+					            
+					            <!-- Dynamically added options will be inserted here -->
+					            <option value="id">Data</option>
+					            <option value="username">Username</option>
+					        </select>
+					        
+					        <br>
+					        <label for="sort-order">Ordinamento:</label>
+					        <select id="sort-order">
+					            <option value="asc">Ascendente</option>
+					            <option value="desc">Discendente</option>
+					        </select>
+					        <button id="sortButton" class="btn-primary-blue">Ordina</button>
+					    </div>
+					    <br>
+					
+					    <!-- Form to add a new comment -->
+					    <div id="add-comment">
+					        <h3 style="color: #1ce622;">Aggiungi un commento</h3>
+					        <form id="comment-form">
+					            <textarea id="comment-text" rows="4" cols="50" placeholder="Aggiungi un commento"></textarea><br>
+					            <button type="submit" class="btn btn-primary-green btn-block mt-3">Posta il commento</button>
+					        </form>
+					    </div>
+					    
+					    <br>
+					    <div style="color: red;">
+					    	<b>Esempio di payload per Stored XSS: </b><br>
+					    	&lt;script&gt;alert("Stored XSS!");&lt;/script&gt; <br>
+					    	(refreshare la pagina dopo averlo inserito)
+					    </div>
     
-                if (sortField) {
-                    console.log("Retrieve sortField: ", sortField);
-    
-                    const dropdown = document.getElementById('sort-field');
-                    console.log("Old dropdown value: ", dropdown.value);
-                    
-                    const existingOption = Array.from(dropdown.options).find(option => option.value === sortField);
-    
-                    if (!existingOption) {
-                        // If the sort field doesn't exist in the dropdown options, add it dynamically
-                        document.write('<option value="' + sortField + '">' + sortField + '</option>');
-                    }
-    
-                    dropdown.value = sortField;
-                    console.log("New dropmenu value: ", dropdown.value);
-    
-                    // Call the sort function to apply the sort
-                    sortComments();
-                }
-            </script>
-            <!-- Dynamically added options will be inserted here -->
-            <option value="id">ID</option>
-            <option value="username">Username</option>
-        </select>
-        <label for="sort-order">Order:</label>
-        <select id="sort-order">
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-        </select>
-        <button onclick="sortComments()">Sort</button>
-    </div>
+				</div>
+	        </div>
+	        
+   			<!-- Elemento per il testo del popup -->
+			<span id="popupText" style="display: none;">Cliccando sul pulsante si arriva
+			sul sito malevolo, nel quale partirà automaticamente una richiesta GET
+			per effettuare l'attacco DOM XSS (cioè con lo script inserito nel 
+			query parameter ?sortField ).
+			</span>
+			
+   			<div class="button-group">
+				<a href="http://localhost:8082/Xss-Dom-Vuln" class="btn btn-primary-attack btn-block mt-3">Attacco DOM XSS</a>
+                <img id="infoButton" src="images/information-icon.png" alt="Info">
+            </div>
+	        
+	        <a href="/home" class="btn btn-primary btn-block mt-3">Torna alla home</a><br><br>
+	    </div>
+	</div>
+</div>
 
-    <!-- Display existing comments -->
-    <div id="comments">
-        <h2>Existing Comments</h2>
-        <ul id="comments-list">
-            <!-- Render initial comments using Thymeleaf -->
-            <!-- Without this, scripts even if stored and displayed won't be executable -->
-            <li th:each="comment : ${comments}" th:utext="${comment.username + ': ' + comment.comment}"></li>
-        </ul>
-    </div>
-
-    <!-- Form to add a new comment -->
-    <div id="add-comment">
-        <h2>Add a Comment</h2>
-        <form id="comment-form">
-            <textarea id="comment-text" rows="4" cols="50" placeholder="Enter your comment"></textarea><br>
-            <button type="submit">Post Comment</button>
-        </form>
-    </div>
-
-    <script>
-        // Initialize an empty array to store comments data
-        window.commentsData = [];
-
-        // Fetch comments from the server and display them
-        fetchComments();
-
-        // Function to fetch comments from the server
-        function fetchComments() {
-            fetch('/comments')
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    // Store comments as an array of objects
-                    window.commentsData = data;
-
-                    renderComments();
-                })
-                .catch(error => console.error('Error fetching comments:', error));
-        }
-
-        // Event listener for form submission to add a new comment
-        document.getElementById('comment-form').addEventListener('submit', function(event) {
-            // Prevent default form submission
-            event.preventDefault();
-            const commentText = document.getElementById('comment-text').value.trim();
-            if (commentText !== '') {
-                addComment(commentText);
-            }
-        });
-
-        // Function to add a new comment
-        function addComment(commentText) {
-            fetch('/comment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'text=' + encodeURIComponent(commentText),
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Refresh comments after successful addition
-                    fetchComments();
-                    // Clear input field
-                    document.getElementById('comment-text').value = '';
-                } else {
-                    console.error('Failed to add comment:', response.statusText);
-                }
-            })
-            .catch(error => console.error('Error adding comment:', error));
-        }
-
-        // Function to sort comments based on the selected field and order
-        function sortComments() {
-            const sortField = document.getElementById('sort-field').value;
-            const sortOrder = document.getElementById('sort-order').value;
-
-            if (sortField  === 'id') {
-                window.commentsData.sort((a, b) => (sortOrder === 'asc') ? a.id - b.id : b.id - a.id);
-            } else if (sortField  === 'username') {
-                window.commentsData.sort((a, b) => (sortOrder === 'asc') ? a.username.localeCompare(b.username) : b.username.localeCompare(a.username));
-            }
-            renderComments();
-        }
-
-        // Function to render comments
-        function renderComments() {
-            const commentsList = document.getElementById('comments-list');
-            // Clear previous comments
-            commentsList.innerHTML = ''; 
-
-            window.commentsData.forEach(comment => {
-                const listItem = document.createElement('li');
-                // Using 'textContent' or 'innerText' instead of 'innerHTML' will automatically escape any HTML tags.
-                // listItem.textContent = comment.username + ': ' + comment.comment;
-                listItem.innerHTML = comment.username + ': ' + comment.comment;
-                commentsList.appendChild(listItem);
-            });
-        }
-
-        // Function to extract URL parameters and search for potential XSS payload
-        function extractParams() {
-            const params = new URLSearchParams(window.location.search);
-            const sortField = params.get('sortField');
-
-            // Check if sort field is provided
-            if (sortField) {
-                console.log("Retrieve sortField: ", sortField);
-
-                // Check if the sort field exists in the dropdown options
-                const dropdown = document.getElementById('sort-field');
-                console.log("Old dropdown value: ", dropdown.value);
-                
-                const existingOption = Array.from(dropdown.options).find(option => option.value === sortField);
-
-                if (!existingOption) {
-                    // If the sort field doesn't exist in the dropdown options, add it dynamically
-                    document.write('<option value="' + sortField + '">' + sortField + '</option>');
-                }
-                // Set the sort field in the dropdown
-                dropdown.value = sortField;
-                console.log("New dropmenu value: ", dropdown.value);
-
-                // Call the sort function to apply the sort
-                sortComments();
-            }
-        }
-
-        // Wait for the DOM content to be fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Call the function to extract URL parameters and search for potential XSS payload
-            extractParams();
-        });
-    </script>
 </body>
+<script type="text/javascript" src="js/boardScript.js"></script>
+<script type="text/javascript" src="js/infoScript.js"></script>
 </html>

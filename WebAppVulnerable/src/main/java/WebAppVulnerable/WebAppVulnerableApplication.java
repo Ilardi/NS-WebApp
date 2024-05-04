@@ -10,7 +10,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import WebAppVulnerable.repository.AccountRepository;
+import WebAppVulnerable.repository.CommentRepository;
 import WebAppVulnerable.entity.Account;
+import WebAppVulnerable.entity.Comment;
 
 @SpringBootApplication
 @EnableJpaRepositories("WebAppVulnerable.repository")
@@ -24,13 +26,13 @@ public class WebAppVulnerableApplication {
 	@Autowired
 	private AccountRepository accountRepo;
 	
+	@Autowired
+	private CommentRepository commentRepo;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(WebAppVulnerableApplication.class, args);
 	}
 
-	//Questo metodo aggiunge degli utenti allo start.
-	//Si potrebbero anche aggiungere dei commenti nella rispettiva
-	//repository se necessario
 	@Bean
 	public String init() {
 		Account a1 = new Account("alice",encoder.encode("alicepass"),1000,
@@ -43,6 +45,14 @@ public class WebAppVulnerableApplication {
 		accountRepo.save(a1);
 		accountRepo.save(a2);
 		accountRepo.save(a3);
+		
+		Comment c1 = new Comment((long) 1,"alice","Ciao a tutti!");
+		Comment c2 = new Comment((long) 2,"bob","Mandatemi dei soldi :(");
+		Comment c3 = new Comment((long) 3,"carl","Bel tempo oggi.");
+		
+		commentRepo.save(c1);
+		commentRepo.save(c2);
+		commentRepo.save(c3);
 		
 		return "";
 	}

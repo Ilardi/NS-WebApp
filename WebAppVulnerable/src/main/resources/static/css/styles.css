@@ -49,6 +49,14 @@ body {
     
 }
 
+.btn-primary-blue {
+	color: white;
+    background-color: blue;
+    border-color: blue;
+    border-radius: 20px; /* Rende i bordi più arrotondati */
+    
+}
+
 .btn-primary:hover {
     background-color: #2597d9;
     border-color: #2597d9;
