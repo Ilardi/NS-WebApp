@@ -71,8 +71,8 @@ function renderComments() {
 
     window.commentsData.forEach(comment => {
         const listItem = document.createElement('li');
+        
         // Using 'textContent' or 'innerText' instead of 'innerHTML' will automatically escape any HTML tags.
-        // listItem.textContent = comment.username + ': ' + comment.comment;
         listItem.innerHTML = comment.username + ': ' + comment.comment;
         commentsList.appendChild(listItem);
     });
@@ -84,6 +84,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Listener per il pulsante di ordinamento
     document.getElementById("sortButton").addEventListener("click", sortComments);
 
-    // Call the function to extract URL parameters and search for potential XSS payload
-    extractParams();
 });

@@ -25,7 +25,7 @@
 					    <div id="comments">
 					        <ul id="comments-list">
 					            <!-- Render initial comments using Thymeleaf -->
-					            <!-- Without this, scripts even if stored and displayed won't be executable -->
+					            <!-- Usare th:text al posto di th:utext per risolvere Stored XSS -->
 					            <li th:each="comment : ${comments}" th:utext="${comment.username + ': ' + comment.comment}"></li>
 					        </ul>
 					    </div>
@@ -59,8 +59,6 @@
 					                    dropdown.value = sortField;
 					                    console.log("New dropmenu value: ", dropdown.value);
 					    
-					                    // Call the sort function to apply the sort
-					                    sortComments();
 					                }
 					            </script>
 					            
