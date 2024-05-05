@@ -1,3 +1,5 @@
+const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
+
 // Initialize an empty array to store comments data
 window.commentsData = [];
 
@@ -34,6 +36,7 @@ function addComment(commentText) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+            'X-XSRF-TOKEN': csrfToken,
         },
         body: 'text=' + encodeURIComponent(commentText),
     })

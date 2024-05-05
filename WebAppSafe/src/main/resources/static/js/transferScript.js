@@ -1,3 +1,4 @@
+const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
 
 document.getElementById("transferForm").addEventListener("submit", function(event) {
     event.preventDefault();
@@ -8,6 +9,7 @@ document.getElementById("transferForm").addEventListener("submit", function(even
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/transfer", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.setRequestHeader('X-XSRF-TOKEN', csrfToken);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             var responseMessage = document.getElementById("responseMessage");

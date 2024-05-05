@@ -72,7 +72,8 @@ function renderComments() {
     window.commentsData.forEach(comment => {
         const listItem = document.createElement('li');
         
-        // Using 'textContent' or 'innerText' instead of 'innerHTML' will automatically escape any HTML tags.
+        // Using 'textContent' or 'innerText' instead of 'innerHTML' will 
+        // automatically escape any HTML tags.
         listItem.innerHTML = comment.username + ': ' + comment.comment;
         commentsList.appendChild(listItem);
     });

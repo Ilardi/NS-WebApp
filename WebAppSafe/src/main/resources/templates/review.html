@@ -4,8 +4,6 @@
     <title>Recensione</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap">
 	<link rel="stylesheet" href="css/styles.css">
@@ -22,6 +20,7 @@
 					    <form id="reviewForm" action="/review" method="POST">
 					        <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
 					        <input type="submit" class="btn btn-primary-green btn-submit" value="Invia recensione">
+					    	<input type="hidden" id="_csrf" name="_csrf" value="">
 					    </form>
 					    <br>
 					    <div>
@@ -50,5 +49,6 @@
 	</div>
 
 </body>
+<script type="text/javascript" src="js/reviewScript.js"></script>
 <script type="text/javascript" src="js/infoScript.js"></script>
 </html>
